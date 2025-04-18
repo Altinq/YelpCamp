@@ -22,7 +22,7 @@ const campgroundRoutes = require("./routes/campground");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 
-const dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/yelp-camp";
 
 mongoose.connect(dbUrl);
 // mongoose.connect(dbUrl);
@@ -48,11 +48,13 @@ app.use(
   })
 );
 
+const secret = process.env.SECRET || "thisshouldbeabettersecret!";
+
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   touchAfter: 24 * 60 * 60,
   crypto: {
-    secret: "thisshouldbeabettersecret!",
+    secret,
   },
 });
 
@@ -63,7 +65,7 @@ store.on("error", function (e) {
 const sessionConfig = {
   store,
   name: "start",
-  secret: "thisshouldbeabettersecret",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
