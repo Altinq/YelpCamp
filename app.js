@@ -22,10 +22,7 @@ const campgroundRoutes = require("./routes/campground");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 
-const dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
-
-// process.env.DB_URL ||
-
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/yelp-camp";
 mongoose.connect(dbUrl);
 // mongoose.connect(dbUrl);
 
